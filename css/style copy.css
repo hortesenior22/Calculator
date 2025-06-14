@@ -1,0 +1,141 @@
+/*DIGITAL CLOCK FONT*/
+@font-face{
+    font-family:'Calculator';
+    src: url('../fonts/Calculator.ttf');
+   }
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: #658eab;
+}
+
+.buttons{
+    margin: auto;
+    padding: 5px 5px; /*Debe de tenero lo mismo que el div#screen*/
+    border: 4px solid #18171c;
+    border-top: none;
+    background-color: #48718d;
+    font-size: 2rem;
+    min-width: 300px;
+    width: 28%;
+    max-width: 317px;
+    border-radius: 0 0 25px 25px;
+    text-align: center;
+}
+/*td*/
+.button{
+    /* border: 3px solid #18171c; */
+    border-radius: 50px;
+    padding: 0.5px;
+    width: 20%;
+    margin: 10px 0;
+}
+div.button{
+    display: inline;
+}
+/* BORRAR
+div.buttons div{
+    width: 360px;
+}*/
+
+/*td.special_button, .special_button td{
+    background-color: #242c32;
+}*/
+
+button{
+    font-size: 2rem;
+    background-color: #7B98AF;
+    width: 100%;
+    padding: 5px;
+    border-radius: 50px;
+}
+button.btn-dark_blue, .btn-dark_blue button{
+    color: white;
+    background-color: #242c32;
+}
+div button#button-0{
+    /* width: 39%; */
+    width: 42.52%;
+}
+
+div.button{
+    padding: 0.3px 0;
+}
+/*
+#screen__top{
+    margin-bottom: 0;
+    border-bottom: none;
+    border-radius: 25px 25px 0 0;
+}
+#screen__content{
+    border-top: none;
+    margin-top: 0;
+    border-radius: 0 0 25px 25px;
+}
+#screen__top, #screen__content{
+    padding: 25px;
+    background-color: #b2dafa;
+    color: #18171c;
+    text-align: right;
+}*/
+.screen__top, .screen__content{
+    padding: 15px;
+    margin: 15px;
+    background-color: #b2dafa;
+    color: #18171c;
+    text-align: right;
+}
+.screen__top{
+    margin-bottom: 0;
+    border: 4px solid #18171c;
+    border-bottom: none;
+    /* border-radius: 25px 25px 0 0; */
+    border-radius: 15px 15px 0 0;
+    font-size: 2.5rem;
+    height: 30px;
+    text-align: right;
+}
+.screen__content{
+    border: 4px solid #18171c;
+    border-top: none;
+    margin-top: -3px;
+    /* border-radius: 0 0 25px 25px; */
+    border-radius: 0 0 15px 15px;
+    font-size: 4rem;
+    /* font-size: 2.12rem; */
+    height: 65px;
+    overflow: hidden;
+    text-align: right;
+}
+.screen{
+    font-family: 'Calculator';
+    padding: 5px 5px;
+    margin: auto;
+    margin-top: 3%;
+    min-width: 300px;
+    width: 28%;
+    /*max-width: 392px;*/
+    max-width: 317px;
+    background-color: #48718d;
+    border: 4px solid #18171c;
+    border-radius: 25px 25px 0 0;
+    /* border-bottom: none; */
+}
+
+.buttons td:hover, button:hover{
+    background-color: #576b7c;
+}
+.btn-dark_blue button:hover, .btn-dark_blue td:hover{
+    background-color: #393d41c1;
+}
+/* CUANDO CLICQUE TIENE QUE HACER LO SIGUIENTE
+.buttons td:hover{
+    border: none;
+    background-color: transparent;
+}
+.special_button td:hover{
+    border: none;
+    background-color: transparent;
+}*/
