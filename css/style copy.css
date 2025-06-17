@@ -7,135 +7,186 @@
     margin: 0;
     padding: 0;
 }
+html{
+    height: 100%;
+}
 body{
     background-color: #658eab;
+    min-height: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
 }
 
-.buttons{
+/* ---------------------------------------- */
+.calculator{
     margin: auto;
-    padding: 5px 5px; /*Debe de tenero lo mismo que el div#screen*/
-    border: 4px solid #18171c;
-    border-top: none;
+    padding: 20px;
+    min-width: 317px;
+    /* width: 21.5%; */
+    width: 22%;
+    /* max-width: 500px; */
+    /* height: max-content; */
     background-color: #48718d;
-    font-size: 2rem;
-    min-width: 300px;
-    width: 28%;
-    max-width: 317px;
-    border-radius: 0 0 25px 25px;
-    text-align: center;
+    border: 4px solid #18171c;
+    border-radius: 25px 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0px 5px 22px 2px  rgba(0, 0, 0, 0.7);
 }
-/*td*/
-.button{
-    /* border: 3px solid #18171c; */
-    border-radius: 50px;
-    padding: 0.5px;
-    width: 20%;
-    margin: 10px 0;
-}
-div.button{
-    display: inline;
-}
-/* BORRAR
-div.buttons div{
-    width: 360px;
-}*/
 
-/*td.special_button, .special_button td{
-    background-color: #242c32;
-}*/
+.calculator-screen{
+    font-family: 'Calculator';
+    width: 100%;
+    height: 150px;
+    background-color: #b2dafa;
+    border: 4px solid #18171c;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.screens{
+    height: max-content;
+    /* height: 325px; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    
+}
+#screen-operation{
+    font-size: 2.5rem;
+    max-height: 65px;
+}
+#screen-result{
+    font-size: 4rem;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+}
+.screens > div{
+    text-align: right;
+    padding-right: 10px;
+}
+
+.calculator-buttons{
+    width: auto;
+    margin-top: 10px;
+    height: auto;
+    /* background-color: yellow; */
+}
+
+.calculator-buttons > div{
+    margin: 5px 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.calculator-buttons > div:last-child{
+    margin: 5px 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.buttons{
+    /* display: flex;
+    flex-direction: column;
+    align-items: end; */
+}
+.button{
+    /* padding: 5px 30px; */
+}
 
 button{
     font-size: 2rem;
     background-color: #7B98AF;
-    width: 100%;
-    padding: 5px;
+    color: black;
+    /* padding: 5px; */
+    /* padding: 5px 30px; */
     border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);/*Sombra sutil */
+     /* filter: drop-shadow(0 0 10px rgba(63, 67, 63, 0.356)); Brillo suave */
 }
-button.btn-dark_blue, .btn-dark_blue button{
+
+button.btn-dark_blue{
     color: white;
     background-color: #242c32;
+    /* padding: 5px 30px; */
 }
-div button#button-0{
-    /* width: 39%; */
-    width: 42.52%;
-}
+
 
 div.button{
+    /* width: 100%; */
     padding: 0.3px 0;
+    /* display: flex;
+    flex-direction: row;
+    justify-content: center; */
 }
-/*
-#screen__top{
-    margin-bottom: 0;
-    border-bottom: none;
-    border-radius: 25px 25px 0 0;
+.button{
+    padding: 5px 0;
+    /* width: 100%; */
+    /* width: 75px; */
+    /* width: 20%; */
+    min-width: 75px;
+    width: 100%;
+    max-width: 75px;
+    margin: 2.5px 2.5px;
 }
-#screen__content{
-    border-top: none;
-    margin-top: 0;
-    border-radius: 0 0 25px 25px;
+#button-0{
+    /* width: 39%; */
+    /* width: 42.52%; */
+    width:150px;
+    max-width: 200%;
 }
-#screen__top, #screen__content{
-    padding: 25px;
-    background-color: #b2dafa;
-    color: #18171c;
-    text-align: right;
-}*/
-.screen__top, .screen__content{
-    padding: 15px;
-    margin: 15px;
-    background-color: #b2dafa;
-    color: #18171c;
-    text-align: right;
+.button0{
+    max-width: 300px;
 }
-.screen__top{
-    margin-bottom: 0;
-    border: 4px solid #18171c;
-    border-bottom: none;
-    /* border-radius: 25px 25px 0 0; */
-    border-radius: 15px 15px 0 0;
-    font-size: 2.5rem;
-    height: 30px;
-    text-align: right;
-}
-.screen__content{
-    border: 4px solid #18171c;
-    border-top: none;
-    margin-top: -3px;
-    /* border-radius: 0 0 25px 25px; */
-    border-radius: 0 0 15px 15px;
-    font-size: 4rem;
-    /* font-size: 2.12rem; */
-    height: 65px;
-    overflow: hidden;
-    text-align: right;
-}
-.screen{
-    font-family: 'Calculator';
-    padding: 5px 5px;
-    margin: auto;
-    margin-top: 3%;
-    min-width: 300px;
-    width: 28%;
-    /*max-width: 392px;*/
-    max-width: 317px;
-    background-color: #48718d;
-    border: 4px solid #18171c;
-    border-radius: 25px 25px 0 0;
-    /* border-bottom: none; */
+#btn-result{
+    background-color: #c47855;
+    border: 2px solid #303031 black;
 }
 
-.buttons td:hover, button:hover{
-    background-color: #576b7c;
+.button:hover {
+    /* background-color: #576b7c; */
+    opacity: 80%;
+    /* background-color: #637787e0; */
 }
-.btn-dark_blue button:hover, .btn-dark_blue td:hover{
+/* .btn-dark_blue:hover{ */
+    /* background-color: #576b7c; */
+    /* background-color: #393d41c1; */
+    /* opacity: 70%;
+} */
+
+button:active{
+    /* border: none; */
+    border: 0.2px solid black;
+}
+
+
+/* .btn-dark_blue button:hover, .btn-dark_blue td:hover{
     background-color: #393d41c1;
+} */
+
+ /* Media query para pantallas más pequeñas (ej. móviles) */
+@media (max-width: 768px) {
+    .screen__top{
+    height: 65px;
+    }
+    .buttons{
+    min-width: 290.5px;
+    }
 }
-/* CUANDO CLICQUE TIENE QUE HACER LO SIGUIENTE
-.buttons td:hover{
-    border: none;
-    background-color: transparent;
+
+
+button:disabled {
+    background-color: light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3));
+    color: light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3));
+    border-color: light-dark(rgba(118, 118, 118, 0.3), rgba(195, 195, 195, 0.3));
 }
-.special_button td:hover{
-    border: none;
-    background-color: transparent;
-}*/

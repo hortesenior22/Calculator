@@ -2,21 +2,29 @@
 const $screenOperation = document.getElementById("screen-operation"),
   $screenResult = document.getElementById("screen-result"),
   $btnNumber = document.querySelectorAll(".btn-number"),
+  $btnOperation = document.querySelectorAll(".btn-operation"),
+  $btnSigned = document.getElementById("btn-signed"),
+  $btnEqual = document.getElementById("btn-result"),
   // exp = /[+\-x/%]$/;
   exp = /[+\-x\÷]$/;
-  //exp = /(?:[+\-*/]|&plus;|&minus;|&times;|&divide;)$/;
 let signed1,signed2,
   numbers = [undefined, undefined, undefined], //Array para guardar los numeros que se vayan introduciendo para luego calcular
-  numero, //Se van guardando los valores de los botones de numero hasta que se pulse un boton diferente a un número
   variableApoyo = false,
-  resultado;
-console.log(-10+10);
+  resultado,
+  hasError = false; // Inicialmente sin error
+
 
   function esOTerminaConOperador(elemento) {
-    // let el = String(elemento).trim();
   return exp.test(String(elemento).trim());
 }
 
+function negarNumero(){
+  if(numbers[1] == undefined){
+      numbers[0] = $screenResult.textContent;
+      } else{
+      numbers[2] = $screenResult.textContent;
+  }
+}
 
 function truncateNumber(number, maxDigits) {
     let str = number.toString();
@@ -49,9 +57,63 @@ function guardarNumeros(valor) {
     }
   }
 }
+//Funciones que se ejecutan al pulsar el botón correspondiente
+function numero(numero){
+  if( $screenResult.textContent == "0" || variableApoyo == true){//Si se interactua por 1º vez o se ha introducido un operador se limpia la pantalla
+      $screenResult.textContent="";//Clean screen
+      hasError = false;
+      variableApoyo = false;//Solo me sirve una vez, si queda en true no se concatenan los numeros de screenResult
+      numbers[2] = "";//Lo limpio ya que más abajo empiezo a cuardar números y si no se van concatenando a "undefined"
+    }
 
+    if(esOTerminaConOperador($screenOperation) &&  $screenResult.textContent.trim() == ""){
+      $screenResult.textContent="";
+    }
+
+    if(numbers[1] != undefined){//Solo inserta el primer número despúes de 
+      numbers[2] = $screenResult.textContent.trim().concat(numero);
+    }
+
+    if($screenOperation.textContent.trim().substring($screenOperation.textContent.length-1) == "="){
+      $screenOperation.textContent = "";
+      $screenResult.textContent = "";
+    }
+
+    $screenResult.textContent += numero;
+    numero=0;
+}
+
+function signoOperacion(signo){
+  if(esOTerminaConOperador(signo) && numbers[2] != ""){
+    resolverOperacion()
+  }
+  $screenOperation.textContent = $screenResult.textContent.concat(signo);//
+  variableApoyo=true;
+  //La siguiente línea sirve para que en caso de que sea un número que esté negado pues no reemplace el "-" que va delante de los numeros
+  // let quitarOperador = $screenOperation.textContent.trim().substring(1, $screenOperation.textContent.trim().length).replace(/[+\-x\÷]/,"");
+  numbers[0] = $screenResult.textContent.trim();
+  
+  console.log("Muestro numero numbers", numbers[0]);
+  numbers[1] = signo;
+}
+
+function signoPorcentaje(signoP){
+  if(signoP == "%" && numbers[0] != undefined){
+    return numbers[0] / 100;
+  }
+    $screenOperation.textContent = $screenResult.textContent.concat(signoP);
+
+    numbers[0] = $screenResult.textContent.trim();
+
+    console.log("Muestro numero numbers", numbers[0]);
+    numbers[1] = signoP;
+    resolverOperacion();
+}
+
+
+//Funcion para resolver la Operación introducida
 function resolverOperacion(){
- if(numbers[2] == ""){
+ if(numbers[2] == "" || numbers[2] == undefined && numbers[1] != "%"){
       numbers[2] = numbers[0];
     }
    
@@ -67,6 +129,8 @@ function resolverOperacion(){
       resultado = Number(numbers[0]) - Number(numbers[2]);
     } else if(numbers[1] == "x"){
       resultado = Number(numbers[0]) * Number(numbers[2]);
+    } else if(numbers[1] == "%"){
+      resultado = Number(numbers[0]) / 100;
     } else if(numbers[1] == "÷"){
       if(numbers[0] == 0 && numbers[2] == 0){// 0 entre 0 es infinito 
         resultado = "Resultado Indefinido";
@@ -81,24 +145,37 @@ function resolverOperacion(){
       if(resultado == "Resultado Indefinido"){
         $screenResult.style.fontSize= "2.12rem";
         $screenResult.style.fontWeight= "bold";
+        hasError = true; // Activa el flag de error
+        // Habilito los botones deshabilitados cuando da "Resultado Indefinido"
+        $btnOperation.forEach(el =>{
+          el.disabled = true;
+        })
+        $btnSigned.disabled = true;
+        $btnEqual.disabled = true;
+
       } else if (String(resultado).length > 9) {
               resultado = String(resultado).slice(0, 10);
               // resultado = truncateNumber(resultado, 9); // NO BORRAR HASTA PROBAR NUMERO DECIMALES
       }
 
-        numCalculoIndefinido[0]= String(resultado);
+        numCalculoIndefinido[0]= resultado;
         numCalculoIndefinido[1]= numbers[1];
         numCalculoIndefinido[2]= numbers[2];
         
         if(numbers[1] != undefined && numbers[2] != ""){
-          $screenOperation.textContent = String(numbers[0].concat(numbers[1], numbers[2], "=")).replaceAll(".", ",");
+          $screenOperation.textContent = String(numbers[0]).concat(numbers[1], numbers[2], "=").replaceAll(".", ",");
           $screenResult.textContent = String(resultado).replaceAll(".", ",");
           numbers[0] = resultado;
           numbers[1] = undefined;
           numbers[2] = undefined;
           resultado = undefined;
-      }
-       
+        } else if(numbers[1] != undefined && numbers[2] == ""){
+          $screenOperation.textContent = String(numbers[0]).concat(numbers[1], "=").replaceAll(".", ",");
+          $screenResult.textContent = String(resultado).replaceAll(".", ",");
+          numbers[0] = resultado;
+          numbers[1] = undefined;
+          resultado = undefined;
+        }
     }
   }
 
@@ -108,77 +185,42 @@ document.addEventListener("click", (e) => {
 let $botonPulsado = document.getElementById(e.target.id).textContent.trim();//Le asignamos en cada boton pulsado su valor
   console.log($botonPulsado);
 
-$screenResult.style.fontSize= "4rem"; //La pantalla empieza/establece con 4rem
-
   if(/C/.test($botonPulsado) || (resultado != undefined && !esOTerminaConOperador($botonPulsado))){
-     $screenOperation.textContent = "";
+     $screenOperation.innerHTML = '<br>';
      $screenResult.textContent = "0";
      numbers[0] = undefined;
      numbers[1] = undefined;
      numbers[2] = undefined;
      resultado = undefined;
+     hasError = false;
      if(/C/.test($botonPulsado)) {
       console.clear();
      }
      
   }
+
   if(/[0-9]/.test($botonPulsado)){
-    if( $screenResult.textContent == "0" || variableApoyo == true){//Si se interactua por 1º vez o se ha introducido un operador se limpia la pantalla
-      $screenResult.textContent="";//Clean screen
-      variableApoyo = false;//Solo me sirve una vez, si queda en true no se concatenan los numeros de screenResult
-      numbers[2] = "";//Lo limpio ya que más abajo empiezo a cuardar números y si no se van concatenando a "undefined"
-    }
-
-    if(esOTerminaConOperador($screenOperation) &&  $screenResult.textContent.trim() == ""){
-      $screenResult.textContent="";
-    }
-
-    if(numbers[1] != undefined){//Solo inserta el primer número despúes de 
-      numbers[2] = $screenResult.textContent.trim().concat($botonPulsado);
-    }
-
-    if($screenOperation.textContent.trim().substring($screenOperation.textContent.length-1) == "="){
-      $screenOperation.textContent = "";
-      $screenResult.textContent = "";
-    }
-
-    $screenResult.textContent += $botonPulsado;
-    $botonPulsado=0;
-    
+    numero($botonPulsado);
+    hasError=false;
+  } 
+// Si da error solo se puede limpiar la pantalla o puslar un número para reiniciar a una nueva operacion
+if(!hasError){ 
+  if(esOTerminaConOperador($botonPulsado) && $botonPulsado != "+/-"){
+  //Si el screenOperation(superior) acaba en operador y queremos cambiar el signo, pero ES diferente al signo "+/-", porque también acaba en operador, y pa que no lo imprima tal cual
+    signoOperacion($botonPulsado);
+      
   }
-  console.log("NN1",$botonPulsado.textContent );
-
-  if(esOTerminaConOperador($botonPulsado) && $botonPulsado != "+/-"){ //Si el screenOperation(superior) acaba en operador y queremos cambiar el signo, pero ES diferente al signo "+/-", porque también acaba en operador, y pa que no lo imprima tal cual
-    if(esOTerminaConOperador($botonPulsado) && numbers[2] != ""){
-      resolverOperacion()
-    }
-     $screenOperation.textContent = $screenResult.textContent.concat($botonPulsado);//
-    variableApoyo=true;
-    //La siguiente línea sirve para que en caso de que sea un número que esté negado pues no reemplace el "-" que va delante de los numeros
-    // let quitarOperador = $screenOperation.textContent.trim().substring(1, $screenOperation.textContent.trim().length).replace(/[+\-x\÷]/,"");
-    numbers[0] = $screenResult.textContent.trim();
-     
-     console.log("Muestro numero numbers", numbers[0]);
-     numbers[1] = $botonPulsado;
+  if($botonPulsado == "%"){
+    signoPorcentaje($botonPulsado);
   }
-  console.log("NN",$botonPulsado);
-  /***************************************************************************************************** */
-function negarNumero(){
-  if(numbers[1] == undefined){
-      numbers[0] = $screenResult.textContent;
-     } else{
-      numbers[2] = $screenResult.textContent;
-  }
-}
 
-  if($botonPulsado == "+/-" && $screenResult.textContent.trim().substring(0,1) != "-" && $screenResult.textContent != "0"){
-      $screenResult.textContent = "-".concat($screenResult.textContent);
-      negarNumero();
-} else if($botonPulsado == "+/-" && $screenResult.textContent.trim().substring(0,1) == "-"){
-      $screenResult.textContent = $screenResult.textContent.replace("-","");
-      negarNumero();
+    if($botonPulsado == "+/-" && $screenResult.textContent.trim().substring(0,1) != "-" && $screenResult.textContent != "0"){
+          $screenResult.textContent = "-".concat($screenResult.textContent);
+          negarNumero();
+    } else if($botonPulsado == "+/-" && $screenResult.textContent.trim().substring(0,1) == "-"){
+          $screenResult.textContent = $screenResult.textContent.replace("-","");
+          negarNumero();
     }
-
     if($botonPulsado == ","){
       if($screenResult.textContent.trim() == 0){
          $screenResult.textContent = $screenResult.textContent.concat(",");
@@ -191,13 +233,34 @@ function negarNumero(){
     }
 
    if(/=/.test($botonPulsado)){
-    if(/=/.test($screenOperation.textContent.trim())){
-      numbers[0] = numCalculoIndefinido[0];
-      numbers[1] = numCalculoIndefinido[1];
-      numbers[2] = numCalculoIndefinido[2];
-    }
+      if(/=/.test($screenOperation.textContent.trim())){
+        numbers[0] = numCalculoIndefinido[0];
+        numbers[1] = numCalculoIndefinido[1];
+        numbers[2] = numCalculoIndefinido[2];
+      }
     resolverOperacion();
    }
+}
+  
+if($screenResult.textContent != "Resultado Indefinido"){
+    $screenResult.style.fontSize= "4rem"; //La pantalla se establece con 4rem
+    $screenResult.style.fontWeight= "normal"; //La pantalla se establece con la fuente fina
+
+    if($btnEqual.hasAttribute('disabled')){//Con que un botón esté disabled se da por hecho que los demás lo están
+      // Habilito los botones deshabilitados cuando da "Resultado Indefinido"
+      $btnOperation.forEach(el =>{
+              el.disabled = false;
+            })
+      $btnSigned.disabled = false;
+      $btnEqual.disabled = false;
+    }
+    
+  }
+  /***************************************************************************************************** */
+
+  
+
+    
  /* SE EJECUTA SI PULSA UN NUMERO */
 //  if(e.target.get)
  /* SE EJECUTA SI PULSA UN SIGNO (+, -, x, ÷) */

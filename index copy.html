@@ -7,79 +7,36 @@
     <title>Calculadora Copy</title>
   </head>
   <body>
-    <div class="calculadora">
-      <div class="screen">
-        <div id="screen-operation" class="screen__top" colspan="4"></div>
-        <div id="screen-result" class="screen__content" colspan="4">0</div>
+    <div class="calculator">
+      <div class="calculator-screen">
+        <div class="screens">
+          <div id="screen-operation" class="screen__top" colspan="4"><br></div>
+          <div id="screen-result" class="screen__content" colspan="4">0</div>
+        </div>
         <!-- <div id="screen-operation" class="screen__top" colspan="4">0÷0=</div> -->
         <!-- <div id="screen-result" class="screen__content" colspan="4">Resultado Indefinido</div> -->
       </div>
-      <div class="buttons" id="buttons">
-        <!--<tr class="screen">
-                    <td id="screen__top" colspan="4"></td>
-                </tr>
-                <tr class="screen">
-                    <td id="screen__content" colspan="4">0</td>
-                </tr> -->
-        <div class="especial_button">
+      <div class="calculator-buttons" id="buttons">
+        <div>
           <div class="button">
-            <button
-              type="button"
-              class="button btn-dark_blue btn-special"
-              id="btn-clear"
-            >
-              C
-            </button>
+            <button type="button" class="button btn-dark_blue btn-special" id="btn-clear">C</button>
           </div>
           <div class="button">
-            <button
-              type="button"
-              class="button btn-dark_blue btn-special"
-              id="btn-signed"
-              data-signo=""
-            >
-              +/-
-            </button>
+            <button type="button" class="button btn-dark_blue btn-special" id="btn-signed" data-signo="">+/-</button>
           </div>
           <div class="button">
-            <button
-              type="button"
-              class="button btn-dark_blue btn-operation"
-              id="btn-percent"
-            >
-              %
-            </button>
+            <button type="button" class="button btn-dark_blue btn-operation" id="btn-percent">%</button>
           </div>
           <div class="button">
-            <button
-              type="button"
-              class="button btn-dark_blue btn-operation"
-              id="btn-divide"
-            >
-              ÷
-            </button>
+            <button type="button" class="button btn-dark_blue btn-operation"id="btn-divide">÷</button>
           </div>
         </div>
         <div>
           <div class="button">
-            <button
-              type="button"
-              class="button btn-number"
-              id="btn-7"
-              value="7"
-            >
-              7
-            </button>
+            <button type="button" class="button btn-number" id="btn-7" value="7">7</button>
           </div>
           <div class="button">
-            <button
-              type="button"
-              class="button btn-number"
-              id="btn-8"
-              value="8"
-            >
-              8
-            </button>
+            <button type="button" class="button btn-number" id="btn-8" value="8">8</button>
           </div>
           <div class="button">
             <button
@@ -184,7 +141,7 @@
           </div>
         </div>
         <div>
-          <div class="button">
+          <div class="button button0">
             <button
               type="button"
               class="button btn-number"
@@ -208,7 +165,7 @@
           </div>
         </div>
       </div>
-    </div>
+  </div>
     <script src="js/script copy.js" defer></script>
   </body>
 </html>
